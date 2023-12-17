@@ -1,14 +1,24 @@
 <?php
 session_start();
-
+if (isset($_SESSION['role'])) {
+  if ($_SESSION['role'] == 'admin') {
+    header("location: ../views/dashboard/dashboard.php");
+  } else if ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
+    header("location: ../views/index.php");
+  }
+  }
+require __DIR__.'/../../vendor/autoload.php';
 use App\Controllers\userController;
 
-$authController = new userController();
+$authregister = new userController();
 if(isset($_POST["register"])){
-    extract($_POST);
-    $result = $authController->register($name, $email, $password, $passwordConfirm, $role);
+    $name=$_POST['name'];
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $confpassword=$_POST['verfypassword'];
+    $result = $authregister->register($name, $email, $password, $confpassword, $role);
     if($result) {
-        header('location:../login.php');
+        header('location:.../../login.php');
     }
 }
 ?>
@@ -26,18 +36,18 @@ if(isset($_POST["register"])){
 <body>
   <div class="wrapper">
     <h2>Registration</h2>
-    <form action="Controllers/AuthController.php" method="POST">
+    <form action="" method="POST">
       <div class="input-box">
-        <input type="text" placeholder="Enter your name" required>
+        <input type="text" placeholder="Enter your name"  name="name" required>
       </div>
       <div class="input-box">
-        <input type="text" placeholder="Enter your email" required>
+        <input type="text" placeholder="Enter your email" name="email" required>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Create password" required>
+        <input type="password" placeholder="Create password" name="password" required>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Confirm password" required>
+        <input type="password" placeholder="Confirm password" name="verfypassword" required>
       </div>
       <div class="policy">
         <input type="checkbox">

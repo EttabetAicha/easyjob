@@ -1,21 +1,24 @@
 <?php
-
-use App\Controllers\userController;
-
 session_start();
+// if (isset($_SESSION['role'])) {
+// if ($_SESSION['role'] == 'admin') {
+//   header("location: ../views/dashboard/dashboard.php");
+// } else if ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
+//   header("location: ../views/index.php");
+// }
+// }
+require __DIR__ . '/../../vendor/autoload.php';
 
-$authController = new userController();
-if(isset($_POST["login"])){
-    extract($_POST);
-    $result = $authController->login($email, $password);
-    $_SESSION['idUser'] = $result['userID'];
-    $_SESSION['role'] = $result['role'];
-    if($_SESSION['role'] == 'admin') {
-        header("location: ../dashboard/dashboard.php");
-    }
-    if($_SESSION['role'] == 'condidate') {
-        header("location: ../index.php");
-    }
+use App\Controllers\UserController;
+
+
+$authController = new UserController();
+
+
+if (isset($_POST["login"])) {
+  extract($_POST);
+  $result = $authController->login($email, $password);
+ 
 }
 ?>
 
@@ -37,6 +40,7 @@ if(isset($_POST["login"])){
       <div class="title"><span>Login Form</span></div>
       <h1></h1>
       <form action="" method="POST">
+        <input type="hidden" name='id'>
         <div class="row">
           <i class="fas fa-user"></i>
           <input type="text" name="email" placeholder="Email or Phone" required>

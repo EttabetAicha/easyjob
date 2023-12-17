@@ -1,9 +1,9 @@
 <?php
-namespace App\database;
+namespace App\Config;
 use PDO;
 use PDOException;
 
-class db {
+class Db {
     public static function getConn() {
         try {
             $host = 'localhost';

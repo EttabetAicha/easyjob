@@ -1,0 +1,10 @@
+Array
+(
+    [title] => Software Developer
+    [description] => Exciting software development opportunity
+    [entreprise] => ABC Tech
+    [location] => City Ahhh
+    [IsActive] => 1
+    [approve] => 0
+    [action] => updateJob
+)

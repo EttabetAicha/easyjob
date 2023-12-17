@@ -13,25 +13,20 @@ class ApplyController
         $this->applyModel = new ApplyModel();
     }
 
-    public function applyForJob($idJob, $idUser)
+    public function applyOffer($idJob, $idUser)
     {
         $result = $this->applyModel->applyOffre($idJob, $idUser);
 
         if ($result) {
-          
-            echo "Application successful!";
+            return ['success' => true, 'message' => 'Application submitted successfully.'];
         } else {
-           
-            echo "You have already applied for this job.";
+            return ['success' => false, 'message' => 'You have already applied for this job.'];
         }
     }
 
     public function getAppliedJobs($isApproved)
     {
-        $appliedJobs = $this->applyModel->getApplyOnline($isApproved);
-
-        
-        print_r($appliedJobs);
+        return $this->applyModel->getApplyOnline($isApproved);
     }
 
     public function approveOffer($idOffer, $test)
@@ -39,11 +34,9 @@ class ApplyController
         $result = $this->applyModel->AprouvOffer($idOffer, $test);
 
         if ($result) {
-           
-            echo "Offer status updated successfully.";
+            return ['success' => true, 'message' => 'Offer status updated successfully.'];
         } else {
-            
-            echo "Error updating offer status.";
+            return ['success' => false, 'message' => 'Error updating offer status.'];
         }
     }
 
@@ -52,19 +45,14 @@ class ApplyController
         $result = $this->applyModel->DeclineOffer($idOffer);
 
         if ($result) {
-            
-            echo "Offer declined successfully.";
+            return ['success' => true, 'message' => 'Offer declined successfully.'];
         } else {
-          
-            echo "Error declining offer.";
+            return ['success' => false, 'message' => 'Error declining offer.'];
         }
     }
 
     public function getUserNotifications($idUser)
     {
-        $notifications = $this->applyModel->getNotefication($idUser);
-
-      
-        print_r($notifications);
+        return $this->applyModel->getNotifications($idUser);
     }
 }
