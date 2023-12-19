@@ -92,13 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "error";
                 }
             } else {
-                echo "not found"; // or any other appropriate error response
+                echo "not found"; 
             }
             break;
 
         case 'approveOffer':
             $offerID = $_POST['ApplyOnlineID'] ?? '';
-            $status = $_POST['status'] ?? ''; // Corrected to use 'status' instead of 'test'
+            $status = $_POST['status'] ?? '';
 
             $result = $applyController->approveOffer($offerID, $status);
 
@@ -130,20 +130,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $searchController = new JobController();
 
         try {
-            // Attempt to perform the search
             $searchResults = $searchController->searchJobs($searchType, $searchValue);
 
-            // Send the search results as JSON response
             echo json_encode(['success' => true, 'data' => $searchResults]);
         } catch (Exception $e) {
-            // Log the error details
             error_log('Search failed: ' . $e->getMessage());
 
-            // Send an error response
             echo json_encode(['success' => false, 'message' => 'An error occurred during the search.']);
         }
     } else {
-        // Handle other actions if needed
+        echo 'error search ';
     }
 }
-

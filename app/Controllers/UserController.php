@@ -29,7 +29,7 @@ class UserController
             if ($_SESSION['role'] == 'admin') {
                 header("location: ../views/dashboard/dashboard.php");
             } elseif ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
-                header("location: ../views/index.php");
+                header("location: ../views/home.php");
             }
         } else {
             $_SESSION['loginError'] = "Invalid credentials";

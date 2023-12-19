@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-require __DIR__ . '/../../vendor/autoload.php';
+// require __DIR__ . '/../../vendor/autoload.php';
 
 use App\Config\Db as ConfigDb;
 

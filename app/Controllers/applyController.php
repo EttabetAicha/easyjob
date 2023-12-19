@@ -39,7 +39,6 @@ class ApplyController
             return ['success' => false, 'message' => 'Error updating offer status.'];
         }
     }
-
     public function declineOffer($idOffer)
     {
         $result = $this->applyModel->DeclineOffer($idOffer);

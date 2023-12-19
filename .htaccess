@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Uncomment the following lines if you want to exclude existing files and directories from the rewrite rule
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Rewrite all requests to index.php with the 'route' parameter
+    RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
+</IfModule>
