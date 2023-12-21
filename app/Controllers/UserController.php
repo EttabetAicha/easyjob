@@ -37,7 +37,6 @@ class UserController
         }
     }
 
-
     public function getUsers()
     {
         $users = $this->userModel->getUsers();

@@ -15,6 +15,8 @@ return [
     'Find_Your_Dream_Job'=>'Trouvez votre emploi de rêve',
     'Latest_Job_Listings'=>'latest job listing',
     'Entreprise'=>'Entreprise',
-    'Location'=>'location'
+    'Location'=>'location',
+    'Add_offer'=>'Ajouter l\'offre'
+
 
 ];

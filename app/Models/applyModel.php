@@ -77,40 +77,41 @@ class ApplyModel extends ConfigDb
     public function DeclineOffer($idOffer)
     {
         $conn = ConfigDb::getConn();
-    
+
         $conn->beginTransaction();
-    
+
         try {
             // Fetch the jobID before deleting the offer
             $stmtSelectJobID = $conn->prepare("SELECT jobID FROM applyonline WHERE ApplyOnlineID = ?");
             $stmtSelectJobID->execute([$idOffer]);
             $jobID = $stmtSelectJobID->fetchColumn();
-    
+
             // Delete the offer
             $stmtDelete = $conn->prepare("DELETE FROM applyonline WHERE ApplyOnlineID = ?");
             $stmtDelete->execute([$idOffer]);
-    
+
             // Check if the jobID exists in applyonline for the user
             $stmtCheckJob = $conn->prepare("SELECT * FROM applyonline WHERE jobID = ? AND Status = 1");
             $stmtCheckJob->execute([$jobID]);
             $jobExists = $stmtCheckJob->rowCount() > 0;
-    
+
             // If no other user has accepted the job, update the approve value in the jobs table to 0
             if (!$jobExists) {
                 $jobModel = new JobModel();
                 $jobModel->updateApprove($jobID, 0);
             }
-    
+
             $conn->commit();
-    
+
             return true;
         } catch (PDOException $e) {
             $conn->rollBack();
-    
+
             return false;
         }
     }
-    
+
+
     public function getNotifications($idUser)
     {
         $conn = ConfigDb::getConn();
@@ -122,5 +123,26 @@ class ApplyModel extends ConfigDb
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+    public function getUserIdByOfferId($idOffer)
+    {
+        $conn = ConfigDb::getConn();
+
+        $stmt = $conn->prepare("SELECT userID FROM applyonline WHERE ApplyOnlineID = ?");
+        $stmt->execute([$idOffer]);
+        $userId = $stmt->fetchColumn();
+
+        return $userId;
+    }
+
+    public function getUserEmailById($userId)
+    {
+        $conn = ConfigDb::getConn();
+
+        $stmt = $conn->prepare("SELECT email FROM users WHERE userID = ?");
+        $stmt->execute([$userId]);
+        $email = $stmt->fetchColumn();
+
+        return $email;
     }
 }

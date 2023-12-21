@@ -16,5 +16,6 @@ return [
     'No_job_found'=>'no job found',
     'Latest_Job_Listings'=>'latest job listings',
     'Entreprise'=>'Company',
-    'Location'=>'location'
+    'Location'=>'location',
+    'Add_offer'=>'Add offer'
 ];

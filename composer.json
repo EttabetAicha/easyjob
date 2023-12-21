@@ -11,5 +11,8 @@
             "email": "aicha70tabite@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "^4.12",
+        "phpmailer/phpmailer": "^6.9"
+    }
 }
