@@ -81,21 +81,17 @@ class ApplyModel extends ConfigDb
         $conn->beginTransaction();
 
         try {
-            // Fetch the jobID before deleting the offer
             $stmtSelectJobID = $conn->prepare("SELECT jobID FROM applyonline WHERE ApplyOnlineID = ?");
             $stmtSelectJobID->execute([$idOffer]);
             $jobID = $stmtSelectJobID->fetchColumn();
 
-            // Delete the offer
             $stmtDelete = $conn->prepare("DELETE FROM applyonline WHERE ApplyOnlineID = ?");
             $stmtDelete->execute([$idOffer]);
 
-            // Check if the jobID exists in applyonline for the user
             $stmtCheckJob = $conn->prepare("SELECT * FROM applyonline WHERE jobID = ? AND Status = 1");
             $stmtCheckJob->execute([$jobID]);
             $jobExists = $stmtCheckJob->rowCount() > 0;
 
-            // If no other user has accepted the job, update the approve value in the jobs table to 0
             if (!$jobExists) {
                 $jobModel = new JobModel();
                 $jobModel->updateApprove($jobID, 0);
@@ -138,11 +134,12 @@ class ApplyModel extends ConfigDb
     public function getUserEmailById($userId)
     {
         $conn = ConfigDb::getConn();
-
+    
         $stmt = $conn->prepare("SELECT email FROM users WHERE userID = ?");
         $stmt->execute([$userId]);
         $email = $stmt->fetchColumn();
-
-        return $email;
+    
+        return $email ? $email : null; 
     }
+    
 }

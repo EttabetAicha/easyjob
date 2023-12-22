@@ -139,44 +139,56 @@ require __DIR__ . '/../../vendor/autoload.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="../../public/js/dashboard.js"></script>
     <script>
-        $(document).ready(function() {
-            $(".apply-btn").click(function() {
-                var form = $(this).closest("form");
-                var status = $(this).data("status");
+       $(document).ready(function() {
+    $(".apply-btn").click(function() {
+        // Get the closest form to the clicked button
+        var form = $(this).closest("form");
 
-                $.post("api.php", form.serialize() + "&action=" + status + "Offer", function(response) {
-                        console.log(response);
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: response.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {});
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: response.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    }, "json")
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-                        console.error(jqXHR, textStatus, errorThrown);
-                        console.log(jqXHR.responseText); // Log the entire response
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Failed to process the application.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+        // Check if form is found
+        if (form.length > 0) {
+            var status = $(this).data("status");
+
+            $.post("api.php", form.serialize() + "&action=" + status + "Offer", function(response) {
+                console.log(response);
+
+                if (response && response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        location.reload();
                     });
+                } else {
+                    console.log(response); 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: response && response.message ? response.message : 'An error occurred.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }, "json")
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR, textStatus, errorThrown);
+                console.log(jqXHR.responseText); // Log the entire response
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to process the application.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             });
-        });
+        } else {
+            console.error('Form not found.');
+        }
+    });
+});
+
     </script>
 
 

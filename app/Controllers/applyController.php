@@ -31,9 +31,9 @@ class ApplyController
         return $this->applyModel->getApplyOnline($isApproved);
     }
 
-    public function approveOffer($idOffer, $userId, $message)
+    public function approveOffer($idOffer, $userId, $htmlContent)
     {
-        $result = $this->applyModel->AprouvOffer($idOffer, $message);
+        $result = $this->applyModel->AprouvOffer($idOffer, $htmlContent);
 
         if ($result) {
             $this->sendEmailNotification($userId, 'Offer approved', 'Your offer has been approved.');
@@ -60,7 +60,7 @@ class ApplyController
     {
         return $this->applyModel->getNotifications($idUser);
     }
-    private function sendEmailNotification($userId, $subject, $message)
+    private function sendEmailNotification($userId, $subject, $htmlContent)
     {
 
         require "../../vendor/autoload.php";
@@ -85,19 +85,32 @@ class ApplyController
 
             if ($userEmail) {
                 $mail->addAddress($userEmail);
+                $htmlFilePath = __DIR__ . '/../../public/contentEmail.html';
 
+                $htmlContent = ''; 
+                
+                if (file_exists($htmlFilePath)) {
+                    $htmlContent = file_get_contents($htmlFilePath);
+                } else {
+                    die('HTML file not found at ' . $htmlFilePath);
+                }
+                
                 // Content
                 $mail->isHTML(true);
                 $mail->Subject = $subject;
-                $mail->Body = $message;
+                $mail->Body = $htmlContent;
 
                 $mail->send();
-                echo 'Email sent successfully';
+                
+                return ['success' => true, 'message' => 'email sent successfully'];
+
             } else {
-                echo 'User email not found';
+                return ['success' => true, 'message' => 'user email not found '];
+
             }
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
+
     }
 }
