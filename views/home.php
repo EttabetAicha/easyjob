@@ -290,7 +290,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 
 <!-- Your custom script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- <script>
+<script>
 	function applyOffer(jobID, userID) {
 		var formData = new FormData();
 		formData.append('action', 'applyoffer');
@@ -327,8 +327,8 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 			}
 		});
 	}
-</script> -->
-<script>
+</script>
+<!-- <script>
     function applyOffer(jobID, userID) {
         var formData = new FormData();
         formData.append('action', 'applyoffer');
@@ -365,6 +365,6 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
             }
         });
     }
-</script>
+</script> -->
 
 </html>
