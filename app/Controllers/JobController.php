@@ -17,28 +17,34 @@ class JobController
     {
         $result = $this->jobModel->addJob($title, $description, $entreprise, $location, $isActive, $approve, $photo);
         if ($result) {
-            header('location:../dashboard/offer.php');
+            header('location:?route=offer');
         }
     }
-
-    public function getJobs($isActive)
+    public function getoffer()
     {
-        $jobs = $this->jobModel->getJobs($isActive);
-        return $jobs;
+        $jobs = $this->jobModel->getJobs(1);
+        require(__DIR__ .'/../../views/dashboard/offer.php');
     }
+ 
 
+    public function index()
+    {
+        $jobs = $this->jobModel->getJobs(1);
+        require(__DIR__ .'/../../views/home.php');
+    }
+ 
     public function deleteJob($idJob)
     {
         $result = $this->jobModel->deleteJob($idJob);
         if ($result) {
-            header('location:../dashboard/offer.php');
+            header('location: ?route=offer');
         }
     }
     public function updateJob($title, $description, $entreprise, $location, $isActive, $approve, $idJobs)
     {
         $result = $this->jobModel->updateJob($title, $description, $entreprise, $location, $isActive, $approve, $idJobs);
         if ($result) {
-            header('location:../dashboard/offer.php');
+            header('location:?route=offer');
         }
     }
     
@@ -49,17 +55,12 @@ class JobController
     }
     public function totalJobs()
     {
-        return $this->jobModel->totalJobs();
+        $total =$this->jobModel->totalJobs();
+        $statistic =$this->jobModel->statistic(1);
+        $countApprove= $this->jobModel->countApprovedJobs(0);
+        $countApproveinactive= $this->jobModel->countApprovedJobs(1);
+        require(__DIR__.'/../../views/dashboard/dashboard.php');
     }
 
-    public function statistic($status)
-    {
-        return $this->jobModel->statistic($status);
-    }
-
-    public function countApprovedJobs($status)
-    {
-        return $this->jobModel->countApprovedJobs($status);
-    }
 
 }

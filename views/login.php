@@ -1,27 +1,3 @@
-<?php
-session_start();
-// session_destroy();
-// if (isset($_SESSION['role'])) {
-// if ($_SESSION['role'] == 'admin') {
-//   header("location: ../views/dashboard/dashboard.php");
-// } else if ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
-//   header("location: ../views/index.php");
-// }
-// }
-require __DIR__ . '/../vendor/autoload.php';
-
-use App\Controllers\UserController;
-
-
-$authController = new UserController();
-
-
-if (isset($_POST["login"])) {
-  extract($_POST);
-  $result = $authController->login($email, $password);
- 
-}
-?>
 
 <!DOCTYPE html>
 
@@ -31,7 +7,7 @@ if (isset($_POST["login"])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form | CodingLab</title>
-  <link rel="stylesheet" href="../public/css/loginstyle.css">
+  <link rel="stylesheet" href="assets/css/loginstyle.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 </head>
 
@@ -40,7 +16,7 @@ if (isset($_POST["login"])) {
     <div class="wrapper">
       <div class="title"><span>Login Form</span></div>
       <h1></h1>
-      <form action="" method="POST">
+      <form action="?route=logincheck" method="POST">
         <input type="hidden" name='id'>
         <div class="row">
           <i class="fas fa-user"></i>
@@ -55,7 +31,7 @@ if (isset($_POST["login"])) {
           <input type="submit" value="Login" name="login">
         </div>
         <span style="color:red;"></span>
-        <div class="signup-link">Not a member? <a href="./register.php">Signup now</a></div>
+        <div class="signup-link">Not a member? <a href="?route=register">Signup now</a></div>
       </form>
     </div>
   </div>

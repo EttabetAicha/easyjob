@@ -1,15 +1,5 @@
 <?php
 
-require __DIR__ . '/../../vendor/autoload.php';
-use App\Controllers\JobController;
-
-if (isset($_POST['logout'])) {
-    $_SESSION = array();
-    session_destroy();
-    header("location: ../login.php");
-    exit;
-}
-session_start();
 if ($_SESSION['role'] != 'admin') {
     header("location: contact.php");
 }
@@ -24,7 +14,7 @@ if ($_SESSION['role'] != 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../public/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -33,7 +23,7 @@ if ($_SESSION['role'] != 'admin') {
 
 <body>
     <div class="wrapper">
-               <?php include('sidebar.php') ?>
+        <?php include('sidebar.php') ?>
 
         <div class="main">
             <nav class="navbar justify-content-space-between pe-4 ps-2">
@@ -43,16 +33,16 @@ if ($_SESSION['role'] != 'admin') {
                 <div class="navbar  gap-4">
                     <div class="">
                         <input type="search" class="search " placeholder="Search">
-                        <img class="search_icon" src="../../public/img/search.svg" alt="iconicon">
+                        <img class="search_icon" src="assets/img/search.svg" alt="iconicon">
                     </div>
                     <!-- <img src="img/search.svg" alt="icon"> -->
-                    <img class="notification" src="../../public/img/new.svg" alt="icon">
+                    <img class="notification" src="assets/img/new.svg" alt="icon">
                     <div class="card new w-auto">
                         <div class="list-group list-group-light">
                             <div class="list-group-item px-3 d-flex justify-content-between align-items-center ">
                                 <p class="mt-auto">Notification</p><a href="#"><img src="img/settingsno.svg" alt="icon"></a>
                             </div>
-                            <div class="list-group-item px-3 d-flex"><img src="../../public/img/notif.svg" alt="iconimage">
+                            <div class="list-group-item px-3 d-flex"><img src="assets/img/notif.svg" alt="iconimage">
                                 <div class="card-body">
                                     <h5 class="card-title">Card title</h5>
                                     <p class="card-text mb-3">Some quick example text to build on the card title and make up
@@ -60,7 +50,7 @@ if ($_SESSION['role'] != 'admin') {
                                     <small class="card-text">1 day ago</small>
                                 </div>
                             </div>
-                            <div class="list-group-item px-3 d-flex"><img src="../../public/img/notif.svg" alt="iconimage">
+                            <div class="list-group-item px-3 d-flex"><img src="assets/img/notif.svg" alt="iconimage">
                                 <div class="card-body">
                                     <h5 class="card-title">Card title</h5>
                                     <p class="card-text mb-3">Some quick example text to build on the card title and make up
@@ -76,15 +66,16 @@ if ($_SESSION['role'] != 'admin') {
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-icon pe-md-0 position-relative" data-bs-toggle="dropdown">
-                                <img src="../../public/img/photo_admin.svg" alt="icon">
+                                <img src="assets/img/photo_admin.svg" alt="icon">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end position-absolute">
                                 <a class="dropdown-item" href="#">Profile</a>
                                 <a class="dropdown-item" href="#">Account Setting</a>
-                                <form  method="post">
-                                <!-- <a class="dropdown-item" href="" name='logout'>Log out</a> -->
-                                <button type="submit" name="logout">logout</button>
-                            </form></div>
+                                <form method="post">
+                                    <a class="dropdown-item" href="?route=logout" name='logout'>Log out</a>
+                                
+                                </form>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -99,16 +90,15 @@ if ($_SESSION['role'] != 'admin') {
                                         <p class="mb-0">Offres</p>
                                         <div class="mt-4">
                                             <h3><strong><?php
-                                                        
-                                                        $job = new JobController();
-                                                        $res = $job->totalJobs();
-                                                        echo $res["contjob"];
+
+
+                                                        echo $total['contjob'];
                                                         ?></strong></h3>
 
                                         </div>
                                     </div>
                                     <div class="cursor">
-                                        <img src="../../public/img/project-icon-1.svg" alt="icon">
+                                        <img src="assets/img/project-icon-1.svg" alt="icon">
                                     </div>
                                 </div>
 
@@ -124,16 +114,15 @@ if ($_SESSION['role'] != 'admin') {
                                         <div class="mt-4">
                                             <h3><strong><?php
 
-                                                      
-                                                        $job = new JobController();
-                                                        $res = $job->statistic(1);
-                                                        echo $res["statusjobs"];
+
+
+                                                        echo $statistic['statusjobs'];
                                                         ?></strong></h3>
 
                                         </div>
                                     </div>
                                     <div class="">
-                                        <img src="../../public/img/project-icon-2.svg" alt="icon">
+                                        <img src="assets/img/project-icon-2.svg" alt="icon">
                                     </div>
                                 </div>
 
@@ -148,15 +137,14 @@ if ($_SESSION['role'] != 'admin') {
                                         <p class="mb-0">offre not active</p>
                                         <div class="mt-4">
                                             <h3><strong><?php
-                                                        $job = new JobController();
-                                                        $res = $job->statistic(0);
-                                                        echo $res["statusjobs"];
+
+                                                        echo $countApprove['approvejobs'];
                                                         ?></strong></h3>
                                             <!-- <p><strong></strong> Completed</p> -->
                                         </div>
                                     </div>
                                     <div class="">
-                                        <img src="../../public/img/project-icon-3.svg" alt="icon">
+                                        <img src="assets/img/project-icon-3.svg" alt="icon">
                                     </div>
                                 </div>
 
@@ -172,14 +160,13 @@ if ($_SESSION['role'] != 'admin') {
                                         <div class="mt-4">
                                             <h3><strong><?php
 
-                                                        $job = new JobController();
-                                                        $res = $job->countApprovedJobs(0);
-                                                        echo $res["approvejobs"];
+                                                      
+                                                        echo $countApproveinactive['approvejobs'];
                                                         ?></strong></h3>
                                         </div>
                                     </div>
                                     <div class="">
-                                        <img src="../../public/img/project-icon-4.svg" alt="icon">
+                                        <img src="assets/img/project-icon-4.svg" alt="icon">
                                     </div>
                                 </div>
 
@@ -189,21 +176,21 @@ if ($_SESSION['role'] != 'admin') {
                 </div>
             </section>
 
-            <div class="px-4">
-                <div class="card mb-3">
-                    <div class="row g-0 px-2">
-                        <div class="col-xl-8 col-md-12 col-sm-12 col-12 p-4 ">
-                            <div>
-                                <h4>Today’s trends</h4>
-                                <p>as of 27 oct 2023, 22:48 PM</p>
-                            </div>
-                            <div class="w-100" id="chart">
+            <section class="overview">
+                <div class="row p-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div>
+                                    <h4>Today’s trends</h4>
+                                    <p>as of 27 Oct 2023, 22:48 PM</p>
+                                </div>
+                                <div class="w-100" id="chart"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
+            </section>
 
             <div class="px-4 row">
                 <div class="col-xl-6 col-md-12 col-sm-12 col-12 ">
@@ -233,19 +220,19 @@ if ($_SESSION['role'] != 'admin') {
                     <div class="Admin_task list-group">
                         <div class="list-group-item px-3 text d-flex justify-content-between align-items-center p-4">
                             <p>Create new offre</p>
-                            <img class="cursor " id="add_admin_task" src="../../public/img/inactive.svg" alt="icon">
+                            <img class="cursor " id="add_admin_task" src="assets/img/inactive.svg" alt="icon">
                         </div>
                         <div class="list-group-item px-3 text d-flex justify-content-between align-items-center p-4">
                             <p>Finish offre update</p>
-                            <img src="../../public/img/warning.svg" alt="icon">
+                            <img src="assets/img/warning.svg" alt="icon">
                         </div>
                         <div class="list-group-item px-3 text d-flex justify-content-between align-items-center p-4">
                             <p>Create new offre example</p>
-                            <img src="../../public/img/successnew.svg" alt="icon">
+                            <img src="assets/img/successnew.svg" alt="icon">
                         </div>
                         <div class="list-group-item px-3 text d-flex justify-content-between align-items-center p-4">
                             <p>Update offre report</p>
-                            <img src="../../public/img/default.svg" alt="icon">
+                            <img src="assets/img/default.svg" alt="icon">
                         </div>
                     </div>
                 </div>
@@ -283,9 +270,9 @@ if ($_SESSION['role'] != 'admin') {
                 <div class="mb-4">
                     <label class="form-label">Status</label>
                     <select class="form-control" name="task status" id="status">
-                        <option value="../../public/img/default.svg">Default</option>
-                        <option value="../../public/img/successnew.svg">New</option>
-                        <option value="../../public/img/warning.svg">Urgent</option>
+                        <option value="assets/img/default.svg">Default</option>
+                        <option value="assets/img/successnew.svg">New</option>
+                        <option value="assets/img/warning.svg">Urgent</option>
                     </select>
                 </div>
 

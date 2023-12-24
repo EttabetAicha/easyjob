@@ -81,4 +81,5 @@ class JobModel extends ConfigDb
         $stmt->execute([$status]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 }

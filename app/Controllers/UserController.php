@@ -13,34 +13,54 @@ class UserController
         $this->userModel = new UserModel();
     }
 
-    public function register($name, $email, $password, $confpassword, $role)
-    {
-
-        return  $this->userModel->register($name, $email, $password, $confpassword, $role);
+    public function register($data)
+    { 
+        extract($data);
+        $res = $this->userModel->register($name, $email, $password, $confpassword, $role);
+        if ($res) {
+            header('location: ?route=login');
+            exit;
+        }
     }
-
-    public function login($email, $password)
+    
+    public function login($info)
     {
+        extract($info);
         $user = $this->userModel->login($email, $password);
-
+    
         if ($user) {
             $_SESSION['id'] = $user['userID'];
             $_SESSION['role'] = $user['role'];
             if ($_SESSION['role'] == 'admin') {
-                header("location: ../views/dashboard/dashboard.php");
-            } elseif ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
-                header("location: ../views/home.php");
+                header("location: ?route=dashboard");
+                exit; 
+            } elseif ($_SESSION['role'] == 'condidate') { 
+                header("location: ?route=home");
+                exit; 
             }
         } else {
             $_SESSION['loginError'] = "Invalid credentials";
-            header("location: ../views/login.php");
+            header("location: ?route=login");
+            exit; 
         }
     }
+    
+    
+    public function loginHtml(){
+        require(__DIR__ ."/../../views/login.php");
+    }
+    public function registerHtml(){
+        require(__DIR__ ."/../../views/register.php");
+    }
+    public function logout(){
+        session_destroy();
+        header('location: ?route=login');
+    }
 
-    public function getUsers()
+    public function index()
     {
         $users = $this->userModel->getUsers();
-        return $users;
+        require(__DIR__.'/../../views/dashboard/candidat.php');
     }
 
     public function deleteUser($id)
@@ -50,7 +70,7 @@ class UserController
         $result = $this->userModel->deleteUser($userID);
 
         if ($result) {
-            header('location:../dashboard/candidat.php');
+            header('location: ?route=candidate');
         } else {
            print_r($result);
         }

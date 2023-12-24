@@ -1,7 +1,6 @@
 <?php
 // header('Content-Type: application/json');
 
-session_start();
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -14,9 +13,23 @@ $userController = new UserController();
 $applyController = new ApplyController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
+    $route = $_GET['route'] ?? '';
 
-    switch ($action) {
+    switch ($route) {
+        case 'logincheck':
+            extract($_POST);
+            $userController->login(['email' => $email, 'password' => $password]);
+            break;
+        
+        case 'registercheck':
+            extract($_POST);
+            $role = ''; 
+            $userController->register(['name' => $name, 'email' => $email, 'password' => $password, 'confpassword' => $confpassword, 'role' => $role]);
+            break;
+       
+        case 'dashboard':
+            $jobController->index();
+            break;
         case 'addJob':
             $title = $_POST['title'] ?? '';
             $description = $_POST['description'] ?? '';
@@ -28,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $photo = isset($_FILES['photo']) ? $_FILES['photo'] : '';
 
             if ($photo['error'] === UPLOAD_ERR_OK) {
-                $targetDirectory = '../../public/upload/';
+                $targetDirectory = 'assets/upload/';
                 $targetFile = $targetDirectory . basename($photo['name']);
 
                 $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -81,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => $result, 'message' => 'User deleted successfully.']);
             break;
         case 'search':
+            
             $searchData = $_POST['searchData'] ?? [];
 
             $searchType = $searchData['field'] ?? '';
@@ -120,43 +134,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($response);
             break;
 
-        case 'approveOffer':
-            $offerID = $_POST['ApplyOnlineID'] ?? '';
-            $status = $_POST['status'] ?? '';
-            $userId = $_SESSION['id'];
-            $subject = 'Approve your Offer';
-            $htmlContent = '';
-            // $htmlFilePath = __DIR__ . '/public/contentEmail.html';
-
-
-            // if (file_exists($htmlFilePath)) {
-            //     $htmlContent = file_get_contents($htmlFilePath);
-            // } else {
-            //     echo 'HTML file not found.';
-            // }
-
-            $result = $applyController->approveOffer($offerID, $userId, $subject, $htmlContent);
-
-            if ($result) {
-                $response = array('status' => 'success');
-            } else {
-                $response = array('status' => 'error');
-            }
-
-            echo json_encode(['success' => $result, 'message' => $result ? 'Offer approved successfully.' : 'Failed to approve offer.']);
-
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            break;
-
-
-        case 'declineOffer':
-            $offerID = $_POST['ApplyOnlineID'] ?? '';
-            $message = 'u are not accepted';
-            $result = $applyController->declineOffer($offerID, $message);
-
-            echo json_encode(['success' => $result, 'message' => $result ? 'Offer declined successfully.' : 'Failed to decline offer.']);
-            break;
+            case 'approveOffer':
+                $offerID = $_POST['ApplyOnlineID'] ?? '';
+                $status = $_POST['status'] ?? '';
+                $userId = $_SESSION['id'];
+                $subject = 'Approve your Offer';
+                $htmlContent = '';
+            
+                $result = $applyController->approveOffer($offerID, $userId, $subject, $htmlContent);
+            
+                $response = [
+                    'success' => $result,
+                    'message' => $result ? 'Offer approved successfully.' : 'Failed to approve offer.'
+                ];
+            
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                break;
+            
+            case 'declineOffer':
+                $offerID = $_POST['ApplyOnlineID'] ?? '';
+                $message = 'u are not accepted';
+                $result = $applyController->declineOffer($offerID, $message);
+            
+                $response = [
+                    'success' => $result,
+                    'message' => $result ? 'Offer declined successfully.' : 'Failed to decline offer.'
+                ];
+            
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                break;
+            
     }
 }
 

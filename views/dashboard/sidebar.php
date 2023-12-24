@@ -8,28 +8,28 @@
 
         <ul class="sidebar_nav">
             <li class="sidebar_item active" style="width: 100%;">
-                <a href="dashboard.php" class="sidebar_link"> <img src="../../public/img/1. overview.svg" alt="icon">Overview</a>
+                <a href="?route=dashboard" class="sidebar_link"> <img src="assets/img/1. overview.svg" alt="icon">Overview</a>
             </li>
             <li class="sidebar_item">
-                <a href="candidat.php" class="sidebar_link"> <img src="../../public/img/agents.svg" alt="icon">Candidat</a>
+                <a href="?route=candidate" class="sidebar_link"> <img src="assets/img/agents.svg" alt="icon">Candidat</a>
             </li>
             <li class="sidebar_item">
-                <a href="offer.php" class="sidebar_link"><img src="../../public/img/articles.svg" alt="icon">offer </a>
+                <a href="?route=offer" class="sidebar_link"><img src="assets/img/articles.svg" alt="icon">offer </a>
             </li>
 
             <li class="sidebar_item">
-                <a href="Accept_offer.php" class="sidebar_link"> <img src="../../public/img/task.svg" alt="icon">Notification Offre</a>
+                <a href="?route=notifoffer" class="sidebar_link"> <img src="assets/img/task.svg" alt="icon">Notification Offre</a>
             </li>
             <li class="sidebar_item">
-                <a href="contact.php" class="sidebar_link"><img src="../../public/img/agent.svg" alt="icon">Contact</a>
+                <a href="?route=contact" class="sidebar_link"><img src="assets/img/agent.svg" alt="icon">Contact</a>
             </li>
             <li class="sidebar_item">
-                <a href="#" class="sidebar_link"><img src="../../public/img/articles.svg" alt="icon">Articles</a>
+                <a href="#" class="sidebar_link"><img src="assets/img/articles.svg" alt="icon">Articles</a>
             </li>
 
         </ul>
         <div class="line"></div>
-        <a href="#" class="sidebar_link"><img src="../../public/img/settings.svg" alt="">Settings</a>
+        <a href="#" class="sidebar_link"><img src="assets/img/settings.svg" alt="">Settings</a>
 
 
     </div>

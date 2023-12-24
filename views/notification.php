@@ -1,16 +1,4 @@
-<?php
-require __DIR__ . '/../vendor/autoload.php';
 
-use App\Controllers\ApplyController;
-
-session_start();
-$idUser = $_SESSION['id'];
-
-// Call the getNotifications method to fetch user-specific notifications
-$applycontroller = new ApplyController();
-$notifications = $applycontroller->getUserNotifications($idUser);
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +18,7 @@ $notifications = $applycontroller->getUserNotifications($idUser);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Your custom styles -->
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -58,7 +46,7 @@ $notifications = $applycontroller->getUserNotifications($idUser);
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="home.php">Home</a>
+                            <a class="nav-link" href="?route=home">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Features</a>
@@ -81,7 +69,7 @@ $notifications = $applycontroller->getUserNotifications($idUser);
                             <a class="nav-link" href="#">EN</a>
                         </span>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php"> <?= $_SESSION['id']; ?></a>
+                            <a class="nav-link" href="?route=login"> <?= $_SESSION['id']; ?></a>
 
                         </li>
                         <?php
@@ -89,7 +77,7 @@ $notifications = $applycontroller->getUserNotifications($idUser);
 
                         ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="login.php">Login</a>
+                                <a class="nav-link" href="?route=login">Login</a>
 
                             </li>
 
@@ -98,13 +86,13 @@ $notifications = $applycontroller->getUserNotifications($idUser);
                         ?>
                             <li class="nav-item">
                                 <form method="post">
-                                    <button type='submit' class="btn btn-light text-dark" href="login.php" name="logout">logout</button>
+                                    <button type='submit' class="btn btn-light text-dark" href="?route=login" name="logout">logout</button>
                                 </form>
                             </li>
                         <?php }
                         if (isset($_POST['logout'])) {
                             session_destroy();
-                            header('location:login.php');
+                            header('location:?route=login');
                         }; ?>
                     </ul>
                 </div>

@@ -1,27 +1,4 @@
-<?php
-session_start();
-if (isset($_SESSION['role'])) {
-  if ($_SESSION['role'] == 'admin') {
-    header("location: ../views/dashboard/dashboard.php");
-  } else if ($_SESSION['role'] == 'condidate') { // Typo: 'condidate' should be 'candidate'
-    header("location: ../views/home.php");
-  }
-  }
-require __DIR__.'/../vendor/autoload.php';
-use App\Controllers\userController;
 
-$authregister = new userController();
-if(isset($_POST["register"])){
-    $name=$_POST['name'];
-    $email=$_POST['email'];
-    $password=$_POST['password'];
-    $confpassword=$_POST['verfypassword'];
-    $result = $authregister->register($name, $email, $password, $confpassword, $role);
-    if($result) {
-        header('location: ./login.php');
-    }
-}
-?>
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - codingnepalweb.com -->
 <html lang="en" dir="ltr">
@@ -30,13 +7,13 @@ if(isset($_POST["register"])){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Registration or Sign Up form in HTML CSS | CodingLab </title>
-  <link rel="stylesheet" href="../public/css/registerstyle.css">
+  <link rel="stylesheet" href="assets/css/registerstyle.css">
 </head>
 
 <body>
   <div class="wrapper">
     <h2>Registration</h2>
-    <form action="" method="POST">
+    <form action="?route=registercheck" method="POST">
       <div class="input-box">
         <input type="text" placeholder="Enter your name"  name="name" required>
       </div>
@@ -47,7 +24,7 @@ if(isset($_POST["register"])){
         <input type="password" placeholder="Create password" name="password" required>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Confirm password" name="verfypassword" required>
+        <input type="password" placeholder="Confirm password" name="confpassword" required>
       </div>
       <div class="policy">
         <input type="checkbox">
@@ -57,7 +34,7 @@ if(isset($_POST["register"])){
         <input type="Submit" value="Register Now" name='register'>
       </div>
       <div class="text">
-        <h3>Already have an account? <a href="login.php">Login now</a></h3>
+        <h3>Already have an account? <a href="?route=login">Login now</a></h3>
       </div>
     </form>
   </div>

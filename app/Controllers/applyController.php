@@ -26,9 +26,11 @@ class ApplyController
         }
     }
 
-    public function getAppliedJobs($isApproved)
+    public function index()
     {
-        return $this->applyModel->getApplyOnline($isApproved);
+        $apply= $this->applyModel->getApplyOnline(0);
+        require(__DIR__."/../../views/dashboard/Accept_offer.php");
+
     }
 
     public function approveOffer($idOffer, $userId, $htmlContent)
@@ -56,9 +58,11 @@ class ApplyController
         }
     }
 
-    public function getUserNotifications($idUser)
+    public function getUserNotifications()
     {
-        return $this->applyModel->getNotifications($idUser);
+        $idUser = $_SESSION['id'];
+        $notifications= $this->applyModel->getNotifications($idUser);
+        require(__DIR__.'/../../views/notification.php');
     }
     private function sendEmailNotification($userId, $subject, $htmlContent)
     {

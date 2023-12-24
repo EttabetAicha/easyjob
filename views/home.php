@@ -1,6 +1,5 @@
-<?php session_start();
+<?php 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en';
-// $_SESSION['lang'] = $lang;
 $translationFilePath = __DIR__ . "/../app/localization/{$lang}.php";
 
 $translations = file_exists($translationFilePath) ? include_once($translationFilePath) : include_once(__DIR__ . "/../app/localization/en.php");
@@ -29,7 +28,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<!-- Your custom styles -->
-	<link rel="stylesheet" href="../public/css/style.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 
 	<!-- SweetAlert CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -63,7 +62,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 							<a class="nav-link" href="#"><?= $translations['features']; ?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="notification.php"><?= $translations['Notification']; ?></a>
+							<a class="nav-link" href="?route=notificationsid=<?= $_SESSION['id']; ?>"><?= $translations['Notification']; ?></a>
 						</li>
 
 						<li class="nav-item dropdown">
@@ -80,7 +79,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 
 						<li class="nav-item">
 							<?php if (isset($_SESSION['id'])) {
-								echo '<a class="nav-link" href="login.php">' . $_SESSION['id'] . '</a>';
+								echo '<a class="nav-link" href="">' . $_SESSION['id'] . '</a>';
 							} ?>
 						</li>
 						<?php
@@ -88,7 +87,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="login.php"><?= $translations['login']; ?></a>
+								<a class="nav-link" href="?route=login"><?= $translations['login']; ?></a>
 
 							</li>
 
@@ -96,15 +95,12 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 						<?php } else {
 						?>
 							<li class="nav-item">
-								<form method="post">
-									<button type='submit' class="btn btn-light text-dark" href="login.php" name="logout"><?= $translations['logout']; ?></button>
-								</form>
+								
+									<a type='submit' class="btn btn-light text-dark" href="?route=logout" name="logout"><?= $translations['logout']; ?></a>
+								
 							</li>
 						<?php }
-						if (isset($_POST['logout'])) {
-							session_destroy();
-							header('location:login.php');
-						}; ?>
+						?>
 					</ul>
 				</div>
 			</div>
@@ -139,16 +135,13 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 		<div class="container py-2">
 
 			<?php
-			require __DIR__ . '/../vendor/autoload.php';
-			use App\Controllers\JobController;
-			$jobsController = new JobController();
-			$jobs = $jobsController->getJobs(1);
+			
 			if (!empty($jobs)) {
 				foreach ($jobs as $job) {
 			?>
 					<article class="postcard light green bottom-cards">
 						<a class="postcard__img_link" href="#">
-							<img class="postcard__img" src="../public/upload/<?= $job['imageURL'] ?>" alt="Image Title" />
+							<img class="postcard__img" src="assets/upload/<?= $job['imageURL'] ?>" alt="Image Title" />
 						</a>
 						<div class="postcard__text t-dark">
 							<h3 class="postcard__title green"><a href="#"><?php echo $job["title"] ?></a></h3>
@@ -174,7 +167,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 										<?php
 										} else {
 										?>
-											<a href="login.php" class="btn btn-warning text-light"><?= $translations['Add_offer']; ?></a>
+											<a href="?route=login" class="btn btn-warning text-light"><?= $translations['Add_offer']; ?></a>
 									<?php
 										}
 									}
@@ -223,9 +216,9 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 
 		$.ajax({
 			type: 'POST',
-			url: './dashboard/api.php',
+			url: '?route=search',
 			data: {
-				action: 'search',
+				route: 'search',
 				searchData: searchData
 			},
 			dataType: 'json',
@@ -253,7 +246,7 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 
 			var resultCard = '<article class="postcard light green">' +
 				'<a class="postcard__img_link" href="#">' +
-				'<img class="postcard__img" src="../public/upload/' + result.imageURL + '" alt="Image Title" />' +
+				'<img class="postcard__img" src="assets/upload/' + result.imageURL + '" alt="Image Title" />' +
 				'</a>' +
 				'<div class="postcard__text t-dark">' +
 				'<h3 class="postcard__title green"><a href="#">' + result.title + '</a></h3>' +
@@ -293,11 +286,11 @@ $translations = file_exists($translationFilePath) ? include_once($translationFil
 <script>
 	function applyOffer(jobID, userID) {
 		var formData = new FormData();
-		formData.append('action', 'applyoffer');
+		formData.append('route', 'applyoffer');
 		formData.append('applyOffre', userID + '/' + jobID);
 
 		$.ajax({
-			url: './dashboard/api.php',
+			url: '?route=applyoffer',
 			type: 'POST',
 			data: formData,
 			contentType: false,
